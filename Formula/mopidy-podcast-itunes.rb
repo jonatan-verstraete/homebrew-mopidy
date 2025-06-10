@@ -16,7 +16,7 @@ class MopidyPodcastItunes < Formula
 
   def install
     python3 = Formula["python@3.12"].opt_bin/"python3.12"
-    system python3, *Language::Python.setup_install_args(libexec)
+    system python3, *Language::Python.setup_install_args(libexec, python=python3)
 
     xy = Language::Python.major_minor_version python3
     site_packages = "lib/python#{xy}/site-packages"
