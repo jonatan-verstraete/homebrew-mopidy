@@ -4,7 +4,7 @@ class MopidyInternetarchive < Formula
   url "https://files.pythonhosted.org/packages/21/9c/98fd4ec4372605187fca0fad02b98e341ec97bb2f63385cc9a379850944c/Mopidy-InternetArchive-3.0.1.tar.gz"
   sha256 "800efa2ccf0c6e99e1eec8599d6f7fc31f153c6c5a2028083c38b4a90884d10a"
   head "https://github.com/tkem/mopidy-internetarchive.git"
-  revision 1
+  revision 2
 
   depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"

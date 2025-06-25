@@ -4,7 +4,7 @@ class MopidySoundcloud < Formula
   url "https://files.pythonhosted.org/packages/84/59/6e556a8c0c5203228a4dad056b2cfd7b2a2a4f737fa740ed436a4b5772ee/Mopidy-SoundCloud-3.0.2.tar.gz"
   sha256 "783ac1459750c9d157bd9d097e486199a16838d6eb1268dd8a642ae37a15f3e2"
   head "https://github.com/mopidy/mopidy-soundcloud.git"
-  revision 1
+  revision 2
 
   depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"

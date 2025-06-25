@@ -4,7 +4,7 @@ class MopidySpotify < Formula
   url "https://files.pythonhosted.org/packages/dc/9c/abd89195770fa8a7b7835f23b41657a0eddf13b58512a916da2dfd126d92/Mopidy-Spotify-4.1.1.tar.gz"
   sha256 "e137d0675288e48563c15d50cb2722c618f1a085673f96b620e64fafdaab97af"
   head "https://github.com/mopidy/mopidy-spotify.git"
-  revision 1
+  revision 2
 
   depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"

@@ -4,6 +4,7 @@ class Mopidy < Formula
   url "https://files.pythonhosted.org/packages/cc/41/1f291572997c49fce9eef47cea6d06b7d30e9923cc75a84679767f7fc99e/Mopidy-3.4.2.tar.gz"
   sha256 "ada9ecbfc09eecc8c9e6742a8a4fea1632a134a1ab060527d8aa3d36df0547b6"
   head "https://github.com/mopidy/mopidy.git"
+  revision 1
 
   depends_on "python@3.12"
   depends_on "gstreamer"

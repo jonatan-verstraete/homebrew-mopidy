@@ -4,7 +4,7 @@ class MopidyMpd < Formula
   url "https://files.pythonhosted.org/packages/8a/45/2ae38c8e83c7e7fd49bda4ce2ee3cd7b2454837ab763a5be192ac657bf98/Mopidy-MPD-3.3.0.tar.gz"
   sha256 "09e2cc46a8fd73006f42b3b1ed71d557c3230e3c0ea2c38d565b0dda8faf4d53"
   head "https://github.com/mopidy/mopidy-mpd.git"
-  revision 1
+  revision 2
 
   depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"

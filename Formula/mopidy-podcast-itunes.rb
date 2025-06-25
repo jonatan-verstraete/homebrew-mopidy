@@ -4,7 +4,7 @@ class MopidyPodcastItunes < Formula
   url "https://files.pythonhosted.org/packages/da/37/c056afd9471c0d32ee116ed1f0977c6bc45a1bee2bd5b47e339f198118be/Mopidy-Podcast-iTunes-3.0.1.tar.gz"
   sha256 "b31a30447506894afb74aa0d2ace21b4525c704681aafcafcc8366ad921921db"
   head "https://github.com/tkem/mopidy-podcast-itunes.git"
-  revision 1
+  revision 2
 
   depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"
