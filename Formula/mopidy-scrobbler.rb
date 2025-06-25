@@ -22,11 +22,11 @@ class MopidyScrobbler < Formula
 
     resources.each do |r|
       r.stage do
-        system python3, *Language::Python.setup_install_args(libexec)
+        system python3, *Language::Python.setup_install_args(libexec, python=python3)
       end
     end
 
-    system python3, *Language::Python.setup_install_args(libexec)
+    system python3, *Language::Python.setup_install_args(libexec, python=python3)
 
     xy = Language::Python.major_minor_version python3
     site_packages = "lib/python#{xy}/site-packages"
