@@ -1,11 +1,10 @@
-
 class Mopidy < Formula
   include Language::Python::Virtualenv
-  
+
   desc "Extensible music server written in Python"
   homepage "https://mopidy.com/"
-  url "https://files.pythonhosted.org/packages/cc/41/1f291572997c49fce9eef47cea6d06b7d30e9923cc75a84679767f7fc99e/Mopidy-3.4.2.tar.gz"
-  sha256 "ada9ecbfc09eecc8c9e6742a8a4fea1632a134a1ab060527d8aa3d36df0547b6"
+  url "https://files.pythonhosted.org/packages/57/ef/08067df97960ce109d7bf645f41fc5a7f3a1e83657ef87f491e44b95a39d/mopidy-4.0.0a14-py3-none-any.whl"
+  sha256 "219cf4b11e0f68784687ecfc6b53fc6f5d1dd3f4aef41f036d551ec318cb96f4"
   head "https://github.com/mopidy/mopidy.git"
   revision 1
 
@@ -46,12 +45,6 @@ class Mopidy < Formula
     url "https://files.pythonhosted.org/packages/0c/39/64487bf07df2ed854cc06078c27c0d0abc59bd27b32232876e403c333a08/urllib3-1.26.18.tar.gz"
     sha256 "f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0"
   end
-
-  resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/82/f3/748f4d6f65d1756b9ae577f329c951cda23fb900e4de9f70900ced962085/setuptools-82.0.0.tar.gz"
-    sha256 "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
-  end
-
 
   def install
     virtualenv_install_with_resources
