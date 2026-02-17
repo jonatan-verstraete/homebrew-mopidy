@@ -1,6 +1,7 @@
-include Language::Python::Virtualenv
 
 class Mopidy < Formula
+  include Language::Python::Virtualenv
+  
   desc "Extensible music server written in Python"
   homepage "https://mopidy.com/"
   url "https://files.pythonhosted.org/packages/cc/41/1f291572997c49fce9eef47cea6d06b7d30e9923cc75a84679767f7fc99e/Mopidy-3.4.2.tar.gz"
