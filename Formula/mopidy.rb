@@ -1,3 +1,5 @@
+include Language::Python::Virtualenv
+
 class Mopidy < Formula
   desc "Extensible music server written in Python"
   homepage "https://mopidy.com/"
@@ -49,23 +51,9 @@ class Mopidy < Formula
     sha256 "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
   end
 
+
   def install
-    python3 = Formula["python@3.12"].opt_bin/"python3.12"
-
-    resources.each do |r|
-      r.stage do
-        system python3, *Language::Python.setup_install_args(libexec, python=python3)
-      end
-    end
-
-    system python3, *Language::Python.setup_install_args(libexec, python=python3)
-
-    xy = Language::Python.major_minor_version python3
-    site_packages = "lib/python#{xy}/site-packages"
-    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
-    (prefix/site_packages/"homebrew-mopidy.pth").write pth_contents
-
-    bin.install Dir[libexec/"bin/*"]
+    virtualenv_install_with_resources
   end
 
   service do
