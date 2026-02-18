@@ -8,7 +8,7 @@ class Mopidy < Formula
   head "https://github.com/mopidy/mopidy.git"
   revision 1
 
-  depends_on "python@3.12"
+  depends_on "python@3.13"
   depends_on "gstreamer"
 
   resource "certifi" do
@@ -56,7 +56,7 @@ class Mopidy < Formula
   end
 
   test do
-    python3 = Formula["python@3.12"].opt_bin/"python3.12"
+    python3 = Formula["python@3.13"].opt_bin/"python3.12"
     system python3, "-c", "import mopidy"
   end
 end
