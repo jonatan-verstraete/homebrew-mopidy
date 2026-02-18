@@ -48,11 +48,10 @@ class Mopidy < Formula
     url "https://files.pythonhosted.org/packages/82/f3/748f4d6f65d1756b9ae577f329c951cda23fb900e4de9f70900ced962085/setuptools-82.0.0.tar.gz"
     sha256 "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
   end
-
+  
   def install
     python3 = Formula["python@3.12"].opt_bin/"python3.12"
 
-    # First, install setuptools so pkg_resources exists
     resource("setuptools").stage do
       system python3, "-m", "pip", "install", "--ignore-installed", "--prefix=#{libexec}", "."
     end
@@ -64,19 +63,12 @@ class Mopidy < Formula
       end
     end
 
-    resource("Mopidy").stage do
-      system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
-    end
-
-    xy = Language::Python.major_minor_version python3
-    site_packages = "lib/python#{xy}/site-packages"
-    (prefix/site_packages).mkpath
-    (prefix/site_packages/"homebrew-mopidy.pth").write <<~EOS
-      import site; site.addsitedir('#{libexec}/lib/python#{xy}/site-packages')
-    EOS
+    system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
 
     bin.install Dir[libexec/"bin/*"]
+    bin.env_script_all_files(libexec/"bin", PYTHONPATH: "#{libexec}/lib/python#{Language::Python.major_minor_version(python3)}/site-packages")
   end
+
 
   service do
     run [opt_bin/"mopidy"]
