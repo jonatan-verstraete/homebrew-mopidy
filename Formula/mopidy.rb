@@ -47,7 +47,7 @@ class Mopidy < Formula
   
 
   def install
-    python3 = Formula["python@3.12"].opt_bin/"python3.12"
+    python3 = Formula["python@3.13"].opt_bin/"python3.13"
 
     resources.each do |r|
       r.stage do
@@ -71,7 +71,7 @@ class Mopidy < Formula
   end
 
   test do
-    python3 = Formula["python@3.13"].opt_bin/"python3.12"
+    python3 = Formula["python@3.13"].opt_bin/"python3.13"
     system python3, "-c", "import mopidy"
   end
 end
