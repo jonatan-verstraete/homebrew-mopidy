@@ -54,7 +54,7 @@ class Mopidy < Formula
 
     # install setuptools first
     resource("setuptools").stage do
-      system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
+      system python3, "-m", "pip", "install", "--ignore-installed", "--prefix=#{libexec}", "."
     end
 
     # install all other resources
