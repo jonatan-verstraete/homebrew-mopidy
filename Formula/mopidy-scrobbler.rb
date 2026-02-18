@@ -6,7 +6,7 @@ class MopidyScrobbler < Formula
   head "https://github.com/mopidy/mopidy-scrobbler.git"
   revision 3
 
-  depends_on "python@3.13"
+  depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"
 
   # Dependencies assumed bundled by mopidy:
@@ -18,7 +18,7 @@ class MopidyScrobbler < Formula
   end
 
   def install
-    python3 = Formula["python@3.13"].opt_bin/"python3.13"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
 
     resources.each do |r|
       r.stage do
@@ -35,7 +35,7 @@ class MopidyScrobbler < Formula
   end
 
   test do
-    python3 = Formula["python@3.13"].opt_bin/"python3.13"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
     system python3, "-c", "import mopidy_scrobbler"
   end
 end

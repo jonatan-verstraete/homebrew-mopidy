@@ -1,12 +1,12 @@
 class Mopidy < Formula
   desc "Extensible music server written in Python"
   homepage "https://mopidy.com/"
-  url "https://files.pythonhosted.org/packages/ed/e7/5dba73645c09b3897e26f96141a1383bdf9afd8e6c30eb7c6ed965b50710/mopidy-4.0.0a14.tar.gz"
-  sha256 "7212dcf4cf3015dfb6fe1519c7d9f5b68fc9a1069f68daf395af2f4c26337ec2"
+  url "https://files.pythonhosted.org/packages/cc/41/1f291572997c49fce9eef47cea6d06b7d30e9923cc75a84679767f7fc99e/Mopidy-3.4.2.tar.gz"
+  sha256 "ada9ecbfc09eecc8c9e6742a8a4fea1632a134a1ab060527d8aa3d36df0547b6"
   head "https://github.com/mopidy/mopidy.git"
   revision 1
 
-  depends_on "python@3.13"
+  depends_on "python@3.12"
   depends_on "gstreamer"
 
   resource "certifi" do
@@ -44,10 +44,18 @@ class Mopidy < Formula
     sha256 "f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0"
   end
 
-  
+  resource "setuptools" do
+    url "https://files.pythonhosted.org/packages/82/f3/748f4d6f65d1756b9ae577f329c951cda23fb900e4de9f70900ced962085/setuptools-82.0.0.tar.gz"
+    sha256 "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
+  end
 
   def install
-    python3 = Formula["python@3.13"].opt_bin/"python3.13"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
+
+    # hacky fix until 4.x mopidy is stable.
+    resource("setuptools").stage do
+      system python3, *Language::Python.setup_install_args(libexec, python=python3)
+    end
 
     resources.each do |r|
       r.stage do
@@ -71,7 +79,7 @@ class Mopidy < Formula
   end
 
   test do
-    python3 = Formula["python@3.13"].opt_bin/"python3.13"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
     system python3, "-c", "import mopidy"
   end
 end

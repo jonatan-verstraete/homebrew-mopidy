@@ -6,7 +6,7 @@ class MopidyLocal < Formula
   head "https://github.com/mopidy/mopidy-local.git"
   revision 2
 
-  depends_on "python@3.13"
+  depends_on "python@3.12"
   depends_on "mopidy/mopidy/mopidy"
 
   # Dependencies assumed bundled by mopidy:
@@ -19,7 +19,7 @@ class MopidyLocal < Formula
   end
 
   def install
-    python3 = Formula["python@3.13"].opt_bin/"python3.13"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
 
     resources.each do |r|
       r.stage do
@@ -36,7 +36,7 @@ class MopidyLocal < Formula
   end
 
   test do
-    python3 = Formula["python@3.13"].opt_bin/"python3.13"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
     system python3, "-c", "import mopidy_local"
   end
 end
