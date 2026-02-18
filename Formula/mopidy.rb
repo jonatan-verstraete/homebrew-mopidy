@@ -52,12 +52,11 @@ class Mopidy < Formula
   def install
     python3 = Formula["python@3.12"].opt_bin/"python3.12"
 
-    # install setuptools first
+    # First, install setuptools so pkg_resources exists
     resource("setuptools").stage do
       system python3, "-m", "pip", "install", "--ignore-installed", "--prefix=#{libexec}", "."
     end
 
-    # install all other resources
     resources.each do |r|
       next if r.name == "setuptools"
       r.stage do
@@ -65,12 +64,16 @@ class Mopidy < Formula
       end
     end
 
-    system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
+    resource("Mopidy").stage do
+      system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
+    end
 
     xy = Language::Python.major_minor_version python3
     site_packages = "lib/python#{xy}/site-packages"
-    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
-    (prefix/site_packages/"homebrew-mopidy.pth").write pth_contents
+    (prefix/site_packages).mkpath
+    (prefix/site_packages/"homebrew-mopidy.pth").write <<~EOS
+      import site; site.addsitedir('#{libexec}/lib/python#{xy}/site-packages')
+    EOS
 
     bin.install Dir[libexec/"bin/*"]
   end
