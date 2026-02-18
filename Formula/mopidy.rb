@@ -1,6 +1,4 @@
 class Mopidy < Formula
-  include Language::Python::Virtualenv
-
   desc "Extensible music server written in Python"
   homepage "https://mopidy.com/"
   url "https://files.pythonhosted.org/packages/ed/e7/5dba73645c09b3897e26f96141a1383bdf9afd8e6c30eb7c6ed965b50710/mopidy-4.0.0a14.tar.gz"
@@ -46,15 +44,25 @@ class Mopidy < Formula
     sha256 "f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0"
   end
 
-  resource "cyclopts" do
-    url "https://files.pythonhosted.org/packages/a5/16/06e35c217334930ff7c476ce1c8e74ed786fa3ef6742e59a1458e2412290/cyclopts-4.5.3.tar.gz"
-    sha256 "35fa70971204c450d9668646a6ca372eb5fa3070fbe8dd51c5b4b31e65198f2d"
-  end
-
   
 
   def install
-    virtualenv_install_with_resources
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
+
+    resources.each do |r|
+      r.stage do
+        system python3, *Language::Python.setup_install_args(libexec, python=python3)
+      end
+    end
+
+    system python3, *Language::Python.setup_install_args(libexec, python=python3)
+
+    xy = Language::Python.major_minor_version python3
+    site_packages = "lib/python#{xy}/site-packages"
+    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
+    (prefix/site_packages/"homebrew-mopidy.pth").write pth_contents
+
+    bin.install Dir[libexec/"bin/*"]
   end
 
   service do
