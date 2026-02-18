@@ -14,7 +14,7 @@ class MopidyBeets < Formula
   # - requests
 
   def install
-    python3 = Formula["python@3.13"].opt_bin/"python3.12"
+    python3 = Formula["python@3.13"].opt_bin/"python3.13"
     system python3, *Language::Python.setup_install_args(libexec, python=python3)
 
     xy = Language::Python.major_minor_version python3
@@ -24,7 +24,7 @@ class MopidyBeets < Formula
   end
 
   test do
-    python3 = Formula["python@3.13"].opt_bin/"python3.12"
+    python3 = Formula["python@3.13"].opt_bin/"python3.13"
     system python3, "-c", "import mopidy_beets"
   end
 end
