@@ -52,18 +52,20 @@ class Mopidy < Formula
   def install
     python3 = Formula["python@3.12"].opt_bin/"python3.12"
 
-    # hacky fix until 4.x mopidy is stable.
+    # install setuptools first
     resource("setuptools").stage do
-      system python3, *Language::Python.setup_install_args(libexec, python=python3)
+      system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
     end
 
+    # install all other resources
     resources.each do |r|
+      next if r.name == "setuptools"
       r.stage do
-        system python3, *Language::Python.setup_install_args(libexec, python=python3)
+        system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
       end
     end
 
-    system python3, *Language::Python.setup_install_args(libexec, python=python3)
+    system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
 
     xy = Language::Python.major_minor_version python3
     site_packages = "lib/python#{xy}/site-packages"
