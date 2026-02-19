@@ -51,24 +51,9 @@ class Mopidy < Formula
     sha256 "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
   end
   
-depends_on "python@3.12"
-depends_on "pygobject3"
-depends_on "gobject-introspection"
-depends_on "glib"
-
-def install
-  venv = virtualenv_create(libexec, "python3.12")
-
-  venv.pip_install "setuptools"
-  venv.pip_install "mopidy==3.4.2"
-
-  bin.install libexec/"bin/mopidy"
-
-  bin.env_script_all_files(
-    libexec/"bin",
-    GI_TYPELIB_PATH: "#{HOMEBREW_PREFIX}/lib/girepository-1.0"
-  )
-end
+  def install
+    virtualenv_install_with_resources
+  end
 
 
   service do
