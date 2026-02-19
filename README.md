@@ -52,7 +52,7 @@ mopidy
 
 
 
-### Copy paste
+### Full copy paste
 ```sh
 brew tap jonatan-verstraete/homebrew-mopidy https://github.com/jonatan-verstraete/homebrew-mopidy
 brew install jonatan-verstraete/mopidy/mopidy --build-from-source
