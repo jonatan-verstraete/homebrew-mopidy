@@ -12,7 +12,11 @@ brew tap jonatan-verstraete/homebrew-mopidy https://github.com/jonatan-verstraet
 brew install jonatan-verstraete/mopidy/mopidy --build-from-source
 ```
 
-## Fix
+But there will be import errors and more...
+
+
+
+## Manual Fix
 > ⚠️ This modifies Homebrew’s Python 3.11 environment.
 If you rely on Brew’s python@3.11 for other projects, proceed carefully.
 The shim may affect other tooling that depends on real pkg_resources.
@@ -23,7 +27,49 @@ The shim may affect other tooling that depends on real pkg_resources.
 /opt/homebrew/bin/python3.11 -m pip install pykka PyGObject
 ```
 
+
+Add these runtime paths:
+```sh
+export DYLD_LIBRARY_PATH=/opt/homebrew/lib
+export GI_TYPELIB_PATH=/opt/homebrew/lib/girepository-1.0
+```
+or 
+```sh
+cat >> ~/.zshrc << EOF
+
+# can be safely removed once using Mopidy v4
+export DYLD_LIBRARY_PATH=/opt/homebrew/lib
+export GI_TYPELIB_PATH=/opt/homebrew/lib/girepository-1.0
+EOF
+```
+
+
 Finally run:
 ```sh
+mopidy
+```
+
+
+
+
+### Copy paste
+```sh
+brew tap jonatan-verstraete/homebrew-mopidy https://github.com/jonatan-verstraete/homebrew-mopidy
+brew install jonatan-verstraete/mopidy/mopidy --build-from-source
+
+
+/opt/homebrew/bin/python3.11 -m pip config set global.break-system-packages true
+/opt/homebrew/bin/python3.11 -m pip install pykka PyGObject
+
+cat >> ~/.zshrc << EOF
+
+# can be safely removed once using Mopidy v4
+export DYLD_LIBRARY_PATH=/opt/homebrew/lib
+export GI_TYPELIB_PATH=/opt/homebrew/lib/girepository-1.0
+EOF
+
+source ~/.zshrc
+
+exec $SHELL
 mopidy
 ```
