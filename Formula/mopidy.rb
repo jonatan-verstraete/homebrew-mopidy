@@ -1,4 +1,4 @@
-class Mopidy < Formula  
+class Mopidy < Formula
   desc "Extensible music server written in Python"
   homepage "https://mopidy.com/"
   url "https://files.pythonhosted.org/packages/cc/41/1f291572997c49fce9eef47cea6d06b7d30e9923cc75a84679767f7fc99e/Mopidy-3.4.2.tar.gz"
@@ -6,7 +6,7 @@ class Mopidy < Formula
   head "https://github.com/mopidy/mopidy.git"
   revision 1
 
-  depends_on "python@3.11"
+  depends_on "python@3.12"
   depends_on "gstreamer"
 
   resource "certifi" do
@@ -50,22 +50,23 @@ class Mopidy < Formula
   end
   
   def install
-    python3 = Formula["python@3.11"].opt_bin/"python3.11"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
+
+    resource("setuptools").stage do
+      system python3, "-m", "pip", "install", "--ignore-installed", "--prefix=#{libexec}", "."
+    end
 
     resources.each do |r|
+      next if r.name == "setuptools"
       r.stage do
-        system python3, *Language::Python.setup_install_args(libexec, python=python3)
+        system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
       end
     end
 
-    system python3, *Language::Python.setup_install_args(libexec, python=python3)
-
-    xy = Language::Python.major_minor_version python3
-    site_packages = "lib/python#{xy}/site-packages"
-    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
-    (prefix/site_packages/"homebrew-mopidy.pth").write pth_contents
+    system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
 
     bin.install Dir[libexec/"bin/*"]
+    bin.env_script_all_files(libexec/"bin", PYTHONPATH: "#{libexec}/lib/python#{Language::Python.major_minor_version(python3)}/site-packages")
   end
 
 
@@ -75,7 +76,7 @@ class Mopidy < Formula
   end
 
   test do
-    python3 = Formula["python@3.11"].opt_bin/"python3.11"
+    python3 = Formula["python@3.12"].opt_bin/"python3.12"
     system python3, "-c", "import mopidy"
   end
 end
