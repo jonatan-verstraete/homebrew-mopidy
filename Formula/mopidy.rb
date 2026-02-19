@@ -49,25 +49,24 @@ class Mopidy < Formula
     sha256 "22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb"
   end
   
-  def install
-    python3 = Formula["python@3.12"].opt_bin/"python3.12"
+depends_on "python@3.12"
+depends_on "pygobject3"
+depends_on "gobject-introspection"
+depends_on "glib"
 
-    resource("setuptools").stage do
-      system python3, "-m", "pip", "install", "--ignore-installed", "--prefix=#{libexec}", "."
-    end
+def install
+  venv = virtualenv_create(libexec, "python3.12")
 
-    resources.each do |r|
-      next if r.name == "setuptools"
-      r.stage do
-        system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
-      end
-    end
+  venv.pip_install "setuptools"
+  venv.pip_install "mopidy==3.4.2"
 
-    system python3, "-m", "pip", "install", "--prefix=#{libexec}", "."
+  bin.install libexec/"bin/mopidy"
 
-    bin.install Dir[libexec/"bin/*"]
-    bin.env_script_all_files(libexec/"bin", PYTHONPATH: "#{libexec}/lib/python#{Language::Python.major_minor_version(python3)}/site-packages")
-  end
+  bin.env_script_all_files(
+    libexec/"bin",
+    GI_TYPELIB_PATH: "#{HOMEBREW_PREFIX}/lib/girepository-1.0"
+  )
+end
 
 
   service do
