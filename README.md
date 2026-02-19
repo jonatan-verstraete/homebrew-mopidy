@@ -12,16 +12,12 @@ brew tap jonatan-verstraete/homebrew-mopidy https://github.com/jonatan-verstraet
 brew install jonatan-verstraete/mopidy/mopidy --build-from-source
 ```
 
-But there will be import errors and more...
 
-
-
-## Manual Fix
+## The "fix"
 > ⚠️ This modifies Homebrew’s Python 3.11 environment.
 If you rely on Brew’s python@3.11 for other projects, proceed carefully.
 
 ```sh
-# allows us to install external packages in the venv
 /opt/homebrew/bin/python3.11 -m pip config set global.break-system-packages true
 /opt/homebrew/bin/python3.11 -m pip install pykka PyGObject
 ```
