@@ -2,16 +2,8 @@
 This fork aims to bridge gap while waiting for a stable 4.x release.
 
 
-**Problem**: Current Mopidy code expecting legacy packaging behavior vs Homebrew Python 3.12 constraints.
-
-**Solution**: manually resolving issues.
-
-
-> ⚠️ This modifies Homebrew’s Python 3.12 environment.
-If you rely on Brew’s python@3.12 for other projects, proceed carefully.
-The shim may affect other tooling that depends on real pkg_resources.
-
-
+**Problem**:
+Current Mopidy code expecting legacy packaging behavior vs Homebrew Python 3.11 constraints.
 
 ## Basic install
 ```bash
@@ -21,17 +13,17 @@ brew install jonatan-verstraete/mopidy/mopidy --build-from-source
 ```
 
 ## Fix
-Run the [fix.sh](./fix.sh) to resolve import issues. Note: needs a new session.
+> ⚠️ This modifies Homebrew’s Python 3.11 environment.
+If you rely on Brew’s python@3.11 for other projects, proceed carefully.
+The shim may affect other tooling that depends on real pkg_resources.
 
 ```sh
-exec $SHELL 
-curl -s "https://raw.githubusercontent.com/jonatan-verstraete/homebrew-mopidy/refs/heads/main/fix.sh" | bash
+# allows us to install external packages in the venv
+/opt/homebrew/bin/python3.11 -m pip config set global.break-system-packages true
+/opt/homebrew/bin/python3.11 -m pip install pykka PyGObject
 ```
 
 Finally run:
 ```sh
 mopidy
 ```
-
-
-> note: this is by far not a real fix. And serves a way to get `mopidy` booted.
