@@ -19,7 +19,6 @@ But there will be import errors and more...
 ## Manual Fix
 > ⚠️ This modifies Homebrew’s Python 3.11 environment.
 If you rely on Brew’s python@3.11 for other projects, proceed carefully.
-The shim may affect other tooling that depends on real pkg_resources.
 
 ```sh
 # allows us to install external packages in the venv
