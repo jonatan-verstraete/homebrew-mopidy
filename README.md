@@ -13,25 +13,25 @@ The shim may affect other tooling that depends on real pkg_resources.
 
 
 
-## Install
+## Basic install
 ```bash
 brew tap jonatan-verstraete/homebrew-mopidy https://github.com/jonatan-verstraete/homebrew-mopidy
 
 brew install jonatan-verstraete/mopidy/mopidy --build-from-source
 ```
 
-## Manual fix
+## Fix
 Run the [fix.sh](./fix.sh) to resolve import issues. Note: needs a new session.
 
 ```sh
-exec $SHELL
+exec $SHELL 
 curl -s "https://raw.githubusercontent.com/jonatan-verstraete/homebrew-mopidy/refs/heads/main/fix.sh" | bash
-echo "Try running: mopidy"
 ```
 
-Finally run
+Finally run:
 ```sh
 mopidy
 ```
 
-Enjoy
+
+> note: this is by far not a real fix. And serves a way to get `mopidy` booted.

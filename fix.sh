@@ -11,12 +11,30 @@
 
 PKG_FILE="/opt/homebrew/lib/python3.12/site-packages/pkg_resources.py"
 
-# Write the shim
+
 cat > "$PKG_FILE" <<'EOF'
 # Minimal pkg_resources shim for Mopidy 3.4.2 on Python 3.12
 
 
-from importlib.metadata import entry_points, version
+from importlib.metadata import entry_points, version, PackageNotFoundError
+
+class ResolutionError(Exception):
+    pass
+    
+class DistributionNotFound(ResolutionError):
+    pass
+
+class VersionConflict(ResolutionError):
+    pass
+
+
+class _Dist:
+    def __init__(self, name):
+        self.project_name = name
+        try:
+            self.version = version(name)
+        except PackageNotFoundError:
+            raise DistributionNotFound(name)
 
 class _EPWrapper:
     def __init__(self, ep):
@@ -29,14 +47,10 @@ class _EPWrapper:
     def load(self):
         return self._ep.load()
 
-    # Mopidy expects resolve()
+    # pkg_resources API compatibility
     def resolve(self):
         return self._ep.load()
 
-class _Dist:
-    def __init__(self, name):
-        self.project_name = name
-        self.version = version(name)
 
 def iter_entry_points(group):
     eps = entry_points(group=group)
@@ -44,6 +58,6 @@ def iter_entry_points(group):
 
 def get_distribution(name):
     return _Dist(name)
-    
+
 EOF
 
