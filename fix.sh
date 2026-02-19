@@ -14,18 +14,36 @@ PKG_FILE="/opt/homebrew/lib/python3.12/site-packages/pkg_resources.py"
 # Write the shim
 cat > "$PKG_FILE" <<'EOF'
 # Minimal pkg_resources shim for Mopidy 3.4.2 on Python 3.12
+
+
 from importlib.metadata import entry_points, version
 
-class DummyDist:
+class _EPWrapper:
+    def __init__(self, ep):
+        self._ep = ep
+        self.name = ep.name
+        self.module_name = ep.module
+        self.attrs = [ep.attr] if ep.attr else []
+        self.dist = _Dist(ep.dist.name)
+
+    def load(self):
+        return self._ep.load()
+
+    # Mopidy expects resolve()
+    def resolve(self):
+        return self._ep.load()
+
+class _Dist:
     def __init__(self, name):
         self.project_name = name
         self.version = version(name)
 
 def iter_entry_points(group):
-    return entry_points(group=group)
+    eps = entry_points(group=group)
+    return [_EPWrapper(ep) for ep in eps]
 
 def get_distribution(name):
-    return DummyDist(name)
+    return _Dist(name)
+    
 EOF
 
-echo "Try running: mopidy"
